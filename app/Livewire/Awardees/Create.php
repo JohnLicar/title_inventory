@@ -6,6 +6,7 @@ use App\Enums\CivilStatus;
 use App\Enums\Reblocking;
 use App\Models\Awardee;
 use App\Models\Site;
+use App\Models\Unit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -76,18 +77,20 @@ class Create extends Component
 
     public function store()
     {
+
         $validated = $this->validate();
 
         DB::transaction(function () use ($validated) {
-            $awardee =  Awardee::create($validated);
+
+            $unit =  Unit::create($validated);
+
+            $awardee =  $unit->awardee()->create($validated);
 
             if ($this->spouse_last_name && $this->spouse_first_name) {
                 $awardee->spouse()->create($validated);
             }
 
-            $awardee->unit()->create($validated);
-
-            session()->flash('success', 'Storing  ' . $this->awardee->full_name . ' info successful');
+            session()->flash('success', 'Storing  ' . $awardee->full_name . ' info successful');
         });
 
 

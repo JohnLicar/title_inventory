@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum CivilStatus: string
 {
-    case SINGLE = 'Single';
-    case LIVE_IN = 'Live-in';
-    case MARRIED = 'Married';
-    case WIDOWED = 'Widowed';
-    case DIVORCED = 'Divorced';
+    case SINGLE = 'SINGLE';
+    case LIVE_IN = 'LIVE-IN';
+    case MARRIED = 'MARRIED';
+    case WIDOWED = 'WIDOWED';
+    case DIVORCED = 'DIVORCED';
 }

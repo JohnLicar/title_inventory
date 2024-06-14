@@ -7,11 +7,11 @@ $commonAttributes = $attributes->merge([
 @endphp
 
 @if ($href)
-<a href="{{ $href }}" {{ $commonAttributes }}>
+<a href="{{ $href }}" {{ $commonAttributes }} wire:navigate>
     {{ $slot }}
 </a>
 @else
-<button type="submit" {{ $commonAttributes }}>
+<button {{ $commonAttributes }}>
     {{ $slot }}
 </button>
 @endif

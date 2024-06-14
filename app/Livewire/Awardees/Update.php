@@ -4,10 +4,9 @@ namespace App\Livewire\Awardees;
 
 use App\Enums\CivilStatus;
 use App\Enums\Reblocking;
-use App\Models\Awardee;
 use App\Models\Site;
+use App\Models\Unit;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Livewire\Attributes\Computed;
@@ -16,7 +15,16 @@ use Livewire\Component;
 class Update extends Component
 {
 
-    public Awardee $awardee;
+    public Unit $unit;
+
+    public string $site_id;
+    public string $phase;
+    public string $block;
+    public string $lot;
+    public string $reblocking_phase;
+    public string $reblocking_block;
+    public string $reblocking_lot;
+
     public $first_name;
     public $middle_name;
     public $last_name;
@@ -29,39 +37,32 @@ class Update extends Component
     public $spouse_birthday;
     public $spouse_civil_status;
 
-    public string $site_id;
-    public string $phase;
-    public string $block;
-    public string $lot;
-    public string $reblocking_phase;
-    public string $reblocking_block;
-    public string $reblocking_lot;
-
     public $reblocking = Reblocking::NO_REBLOCKING;
 
     public function mount()
     {
-        $this->awardee->load('spouse', 'unit');
 
-        $this->first_name = $this->awardee->first_name;
-        $this->middle_name = $this->awardee->middle_name;
-        $this->last_name = $this->awardee->last_name;
-        $this->birthday = $this->awardee->formatted_birthday;
-        $this->civil_status = $this->awardee->civil_status;
+        $this->unit->load('awardee.spouse');
 
-        $this->spouse_first_name = $this->awardee->spouse?->spouse_first_name;
-        $this->spouse_middle_name = $this->awardee->spouse?->spouse_middle_name;
-        $this->spouse_last_name = $this->awardee->spouse?->spouse_last_name;
-        $this->spouse_birthday = $this->awardee->spouse?->formatted_birthday;
+        $this->first_name = $this->unit->awardee->first_name;
+        $this->middle_name = $this->unit->awardee->middle_name;
+        $this->last_name = $this->unit->awardee->last_name;
+        $this->birthday = $this->unit->awardee->formatted_birthday;
+        $this->civil_status = $this->unit->awardee->civil_status;
 
-        $this->site_id = $this->awardee->unit->id;
-        $this->phase = $this->awardee->unit?->phase;
-        $this->block = $this->awardee->unit->block;
-        $this->lot = $this->awardee->unit->lot;
+        $this->spouse_first_name = $this->unit->awardee->spouse?->spouse_first_name;
+        $this->spouse_middle_name = $this->unit->awardee->spouse?->spouse_middle_name;
+        $this->spouse_last_name = $this->unit->awardee->spouse?->spouse_last_name;
+        $this->spouse_birthday = $this->unit->awardee->spouse?->formatted_birthday;
 
-        $this->reblocking_phase = $this->awardee->unit->reblocking_phase ?? '';
-        $this->reblocking_block = $this->awardee->unit->reblocking_block ?? '';
-        $this->reblocking_lot = $this->awardee->unit->reblocking_lot ?? '';
+        $this->site_id = $this->unit->id;
+        $this->phase = $this->unit?->phase;
+        $this->block = $this->unit->block;
+        $this->lot = $this->unit->lot;
+
+        $this->reblocking_phase = $this->unit->reblocking_phase ?? '';
+        $this->reblocking_block = $this->unit->reblocking_block ?? '';
+        $this->reblocking_lot = $this->unit->reblocking_lot ?? '';
     }
 
     public function rules()
@@ -96,29 +97,39 @@ class Update extends Component
         return Site::get();
     }
 
-    public function store()
+    public function update()
     {
         $validated = $this->validate();
 
         DB::transaction(function () use ($validated) {
-            $this->awardee->update($validated);
+
+
+            // $unit =  Unit::create($validated);
+
+            // $awardee =  $unit->awardee()->create($validated);
+
+            // if ($this->spouse_last_name && $this->spouse_first_name) {
+            //     $awardee->spouse()->create($validated);
+            // }
+
+            $this->unit->update($validated);
 
             if ($this->spouse_last_name && $this->spouse_first_name) {
-                $this->awardee->spouse()->updateOrCreate(
-                    ['awardee_id' => $this->awardee->id],
+                $this->unit->awardee->spouse()->updateOrCreate(
+                    ['awardee_id' => $this->unit->awardee->id],
                     $validated
                 );
             }
 
-            $this->awardee->unit()->updateOrCreate(
-                ['awardee_id' => $this->awardee->id],
+            $this->unit->awardee()->updateOrCreate(
+                ['id' => $this->unit->awardee->id],
                 $validated
             );
         });
 
-        session()->flash('success', 'Updating ' . $this->awardee->full_name . ' successfully');
+        session()->flash('success', 'Updating ' . $this->unit->awardee->full_name . ' successfully');
 
-        return redirect()->route('awardees.update', $this->awardee);
+        return redirect()->route('awardees.update', $this->unit);
     }
 
     public function render()

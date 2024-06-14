@@ -12,6 +12,7 @@ class Spouse extends Model
     use HasFactory;
 
     protected $fillable = [
+        'awardee_id',
         'spouse_last_name',
         'spouse_first_name',
         'spouse_middle_name',

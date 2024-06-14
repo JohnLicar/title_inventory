@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('awardees', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('unit_id')->constrained();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('middle_name');
-            $table->date('birthday');
+            $table->string('middle_name')->nullable();
+            $table->date('birthday')->nullable();
             $table->string('civil_status');
             $table->timestamps();
+
+            $table->fullText('first_name');
+            $table->fullText('last_name');
+            $table->fullText('middle_name');
         });
     }
 

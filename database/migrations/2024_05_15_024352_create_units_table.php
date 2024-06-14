@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('awardee_id')->constrained();
             $table->foreignId('site_id')->constrained();
-            $table->string('phase');
+            $table->string('phase')->nullable();
             $table->string('block');
             $table->string('lot');
             $table->string('reblocking_phase')->nullable();

@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::get('awardees', AwardeesIndex::class)->name('awardees.index');
     Route::get('awardees/view/{awardee}', AwardeesView::class)->name('awardees.view');
     Route::get('awardees/create', AwardeesCreate::class)->name('awardees.create');
-    Route::get('awardees/update/{awardee}', AwardeesUpdate::class)->name('awardees.update');
+    Route::get('awardees/update/{unit}', AwardeesUpdate::class)->name('awardees.update');
 
 
     Route::get('users', Index::class)->name('users.index');

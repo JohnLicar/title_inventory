@@ -1,5 +1,5 @@
 <div>
-    <td class="py-6 bg-white border-t-2" colspan="7">
+    <td class="py-6 bg-white border-t-2" colspan="10">
         <div class="flex flex-col justify-center place-items-center align-center">
             <img class="w-24 h-24" src="{{ asset('icon/empty.svg') }}" alt="Empty" />
             <div>

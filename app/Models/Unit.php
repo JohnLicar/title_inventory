@@ -12,7 +12,6 @@ class Unit extends Model
     use HasFactory;
 
     protected $fillable = [
-        'awardee_id',
         'site_id',
         'phase',
         'block',
@@ -25,15 +24,14 @@ class Unit extends Model
     ];
 
 
-
     public function title(): HasOne
     {
         return $this->hasOne(Title::class);
     }
 
-    public function awardee(): BelongsTo
+    public function awardee(): HasOne
     {
-        return $this->belongsTo(Awardee::class);
+        return $this->hasOne(Awardee::class);
     }
 
     public function site(): BelongsTo

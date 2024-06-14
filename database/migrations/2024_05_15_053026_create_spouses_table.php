@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('awardee_id')->constrained();
             $table->string('spouse_first_name');
             $table->string('spouse_last_name');
-            $table->string('spouse_middle_name');
-            $table->date('spouse_birthday');
+            $table->string('spouse_middle_name')->nullable();
+            $table->date('spouse_birthday')->nullable();
             $table->timestamps();
         });
     }

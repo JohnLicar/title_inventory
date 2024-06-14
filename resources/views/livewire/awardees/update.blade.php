@@ -15,7 +15,9 @@
             </div>
         </div>
     </div>
-    <form wire:submit.prevent="store" autocomplete="off" class="space-y-3">
+
+
+    <form wire:submit.prevent="update" autocomplete="off" class="space-y-3">
         <div class="p-6 bg-white shadow sm:p-8 sm:rounded-lg">
             <div class="max-w-xl">
                 <section>

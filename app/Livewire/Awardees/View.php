@@ -51,7 +51,7 @@ class View extends Component
         $this->spouse_birthday = $this->awardee->spouse?->formatted_birthday;
 
         $this->site = $this->awardee->unit->site->site;
-        $this->phase = $this->awardee->unit?->phase;
+        $this->phase = $this->awardee->unit?->phase ?? '';
         $this->block = $this->awardee->unit->block;
         $this->lot = $this->awardee->unit->lot;
         $this->reblocking_phase = $this->awardee->unit->reblocking_phase ?? '';
